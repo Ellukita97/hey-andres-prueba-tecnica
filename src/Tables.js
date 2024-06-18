@@ -47,8 +47,6 @@ export function TableClient(nameAgency, dataCompany) {
 
 export function TableAgency(dataCompany) {
 
-    //console.log(dataCompany[0]['nameAgency'])
-
     const HeaderTableAgency = [
         "Nombre empresa",
         "Total de ventas",

@@ -1,15 +1,16 @@
 import React from 'react'
 
 function RowComponent({ dataTable, propsToShow }) {
+    
     return (
         <>
             {dataTable?.map((value, key) => {
                 return (
                     <tr key={key}>
                         {
-                            propsToShow?.map(prop => {
+                            propsToShow?.map((prop, i) => {
                                 return (
-                                    <td>
+                                    <td key={i}>
                                         {
                                             prop == "detalle"
                                                 ? (

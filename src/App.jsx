@@ -55,7 +55,7 @@ function App() {
       const { nombreEmpresa, dataResult } = await getTableData()
       if (add) {
         dispatch(addNameTable(nombreEmpresa))
-        dispatch(addTableData([dataResult]))
+        dispatch(addTableData(dataResult))
       }
     }
     fetchData()
@@ -75,7 +75,7 @@ function App() {
             table.length === 0 ? (
               <LoadingComponent />
             ) : (
-              <TableComponent table={table} />
+              <TableComponent />
             )
           }
         </article>
