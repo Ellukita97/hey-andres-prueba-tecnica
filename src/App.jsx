@@ -16,8 +16,9 @@ function App() {
   const { nombreEmpresa } = useParams();
   const titleTable = "Postulante Lucas Rodrigues"
 
+  //toma los datos del contexto
   const { table } = useSelector((state) => state.table)
-  
+
   const dispatch = useDispatch()
 
   const loadDataTableFirebase = async (collecName) => {
@@ -29,7 +30,7 @@ function App() {
     })
   }
 
-  const ChangeDataTable = async () => {
+  const getTableData = async () => {
     const colname = "empresas";
 
     const fireData = await loadDataTableFirebase(colname)
@@ -40,12 +41,27 @@ function App() {
     } else {
       dataResult = TableAgency(fireData)
     }
-    dispatch(addNameTable(nombreEmpresa))
-    dispatch(addTableData([dataResult]))
+
+    return {
+      nombreEmpresa: nombreEmpresa,
+      dataResult: dataResult
+    }
+
   }
 
   useEffect(() => {
-    ChangeDataTable()
+    let add = true;
+    const fetchData = async () => {
+      const { nombreEmpresa, dataResult } = await getTableData()
+      if (add) {
+        dispatch(addNameTable(nombreEmpresa))
+        dispatch(addTableData([dataResult]))
+      }
+    }
+    fetchData()
+    return () => {
+      add = false;
+    }
   }, [])
 
   return (
@@ -62,7 +78,6 @@ function App() {
               <TableComponent table={table} />
             )
           }
-
         </article>
       </main>
     </>

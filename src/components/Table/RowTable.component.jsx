@@ -1,20 +1,23 @@
 import React from 'react'
 
-function RowComponent({ dataTable }) {
+function RowComponent({ dataTable, propsToShow }) {
     return (
         <>
             {dataTable?.map((value, key) => {
                 return (
                     <tr key={key}>
                         {
-                            value.map((v, k) => {
+                            propsToShow?.map(prop => {
                                 return (
-                                    <td key={k}>{
-                                        v == "detalle"
-                                            ? (<a href={`/empresas/${dataTable[key][0]}`}>detalle</a>)
-                                            : v
-
-                                    }</td>
+                                    <td>
+                                        {
+                                            prop == "detalle"
+                                                ? (
+                                                    <a href={`/empresas/${value.nameAgency}`}>Detalle</a>
+                                                )
+                                                : value[prop]
+                                        }
+                                    </td>
                                 )
                             })
                         }

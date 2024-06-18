@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import RowComponent from './RowTable.component.jsx'
 import HeadTableComponent from './HeadTable.component.jsx'
-function TableComponent({table}) {
+function TableComponent({ table, propsToShow }) {
 
   const [dataTable, setDataTable] = useState({
     header: [],
-    data: []
+    data: [],
+    propiertiesToShow: []
   })
 
   useEffect(() => {
@@ -16,7 +17,7 @@ function TableComponent({table}) {
     <table>
       <tbody>
         <HeadTableComponent headerData={dataTable.header} />
-        <RowComponent dataTable={dataTable.data} />
+        <RowComponent dataTable={dataTable.data} propsToShow={dataTable.propiertiesToShow} />
       </tbody>
     </table>
   )

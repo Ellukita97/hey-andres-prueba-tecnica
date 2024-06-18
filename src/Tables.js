@@ -9,24 +9,33 @@ export function TableClient(nameAgency, dataCompany) {
         "Valor venta"
     ]
 
-    const DataClientToArray = (data, agency) => {
-        const filteredData = data.filter(c => {
+    const propiertiesToShow = [
+        "name",
+        "people",
+        "day",
+        "hour",
+        "finalPrice"
+    ]
+
+    const DataClientToArray = (data, agencyName) => {
+        const filteredData = data.filter(agency => {
             return (
-                c.nameAgency == agency
+                agency.nameAgency == agencyName
             )
         })
-        return filteredData.map(d => ([
-            d.name,
-            d.persons,
-            d.day,
-            d.hour,
-            "$" + d.finalPrice
-        ]))
+        return filteredData.map(d => ({
+            name: d.name,
+            people: d.persons,
+            day: d.day,
+            hour: d.hour,
+            finalPrice: "$" + d.finalPrice
+        }))
     }
 
     return {
         header: HeaderTableClient,
-        data: DataClientToArray(dataCompany, nameAgency)
+        data: DataClientToArray(dataCompany, nameAgency),
+        propiertiesToShow: propiertiesToShow
     }
 
 }
@@ -38,7 +47,7 @@ export function TableClient(nameAgency, dataCompany) {
 
 export function TableAgency(dataCompany) {
 
-    console.log(dataCompany[0]['nameAgency'])
+    //console.log(dataCompany[0]['nameAgency'])
 
     const HeaderTableAgency = [
         "Nombre empresa",
@@ -49,16 +58,16 @@ export function TableAgency(dataCompany) {
 
     const propiertiesToShow = [
         "nameAgency",
-        "averagePrice",
-        "Comision",
-        "Detalle",
+        "sumPrice",
+        "comision",
+        "detalle",
     ]
 
     const DataAgencyToArray = (data) => {
 
         const arr = []
 
-        const maxPrice = (name) => {
+        const sumPrice = (name) => {
             let totalPrice = 0
             data.map(d => {
                 if (d.nameAgency == name) {
@@ -76,28 +85,23 @@ export function TableAgency(dataCompany) {
 
 
         data?.map(d => {
-            for (const prop in propiertiesToShow) {
-                return 
+            if (!arr.find(ad => ad.nameAgency == d.nameAgency)) {
+                arr.push({
+                    nameAgency: d.nameAgency,
+                    sumPrice: sumPrice(d.nameAgency),
+                    comision: commissionPrice(sumPrice(d.nameAgency)),
+                    detalle: "detalle"
+                })
             }
 
-
-            /*
-                        if (!arr.find(ad => ad[0] == d.nameAgency)) {
-                            arr.push([
-                                d.nameAgency,
-                                maxPrice(d.nameAgency),
-                                commissionPrice(maxPrice(d.nameAgency)),
-                                "detalle"
-                            ])
-                        }
-                            */
         })
         return arr
     }
 
     return {
         header: HeaderTableAgency,
-        data: DataAgencyToArray(dataCompany)
+        data: DataAgencyToArray(dataCompany),
+        propiertiesToShow: propiertiesToShow
     }
 
 }
