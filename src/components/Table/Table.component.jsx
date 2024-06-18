@@ -1,20 +1,26 @@
 import React, { useEffect } from 'react'
 import RowComponent from './RowTable.component.jsx'
 import HeadTableComponent from './HeadTable.component.jsx'
-import { useSelector } from 'react-redux'
+import LoadingTableComponent from './LoadingTable.component.jsx'
 
-function TableComponent() {
-
-  //toma los datos del contexto
-  const {table} = useSelector((state) => state.table)
+function TableComponent({ table }) {
 
   return (
-    <table>
-      <tbody>
-        <HeadTableComponent headerData={table?.header} />
-        <RowComponent dataTable={table?.data} propsToShow={table?.propiertiesToShow} />
-      </tbody>
-    </table>
+    <>
+      {
+        table.data.length === 0 ? (
+          <LoadingTableComponent />
+        ) : (
+          <table>
+            <tbody>
+              <HeadTableComponent headerData={table?.header} />
+              <RowComponent dataTable={table?.data} propsToShow={table?.propiertiesToShow} />
+            </tbody>
+          </table>
+        )
+      }
+    </>
+
   )
 }
 

@@ -1,14 +1,13 @@
 import './App.css'
-import HeaderComponent from './components/Header.component.jsx'
+import HeaderComponent from './components/pages/components/Header.component.jsx'
 import TableComponent from './components/Table/Table.component.jsx'
-import { TableClient, TableAgency } from './Tables.js'
+import { TableClient, TableAgency } from './logic/Tables.logic.js'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { addNameTable, addTableData } from './redux/tableSlice.js'
 import { useEffect } from 'react'
-import { collection, getDocs } from 'firebase/firestore'
 import { db } from './firebase/config.js'
-import LoadingComponent from './components/Loading.component.jsx'
+import LoadingComponent from './components/Table/LoadingTable.component.jsx'
 
 
 function App() {
@@ -21,14 +20,6 @@ function App() {
 
   const dispatch = useDispatch()
 
-  const loadDataTableFirebase = async (collecName) => {
-    const colectionRef = collection(db, collecName)
-    const res = await getDocs(colectionRef)
-
-    return res.docs.map(doc => {
-      return { ...doc.data(), id: doc.id }
-    })
-  }
 
   const getTableData = async () => {
     const colname = "empresas";
@@ -72,7 +63,7 @@ function App() {
 
           <HeaderComponent title={titleTable} />
           {
-            table.length === 0 ? (
+            table.data.length === 0 ? (
               <LoadingComponent />
             ) : (
               <TableComponent />

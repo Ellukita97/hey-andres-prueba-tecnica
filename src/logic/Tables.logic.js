@@ -1,6 +1,6 @@
 
 
-export function TableClient(nameAgency, dataCompany) {
+export function TableClientLogic(nameAgency, dataCompany) {
     const HeaderTableClient = [
         "Nombre cliente",
         "Personas",
@@ -17,8 +17,8 @@ export function TableClient(nameAgency, dataCompany) {
         "finalPrice"
     ]
 
-    const DataClientToArray = (data, agencyName) => {
-        const filteredData = data.filter(agency => {
+    const DataClientToArray = (agencyName, data) => {
+        const filteredData = data?.filter(agency => {
             return (
                 agency.nameAgency == agencyName
             )
@@ -28,13 +28,13 @@ export function TableClient(nameAgency, dataCompany) {
             people: d.persons,
             day: d.day,
             hour: d.hour,
-            finalPrice: "$" + d.finalPrice
+            finalPrice: d.finalPrice
         }))
     }
 
     return {
         header: HeaderTableClient,
-        data: DataClientToArray(dataCompany, nameAgency),
+        data: DataClientToArray(nameAgency, dataCompany),
         propiertiesToShow: propiertiesToShow
     }
 
@@ -45,7 +45,7 @@ export function TableClient(nameAgency, dataCompany) {
 
 
 
-export function TableAgency(dataCompany) {
+export function TableAgencyLogic(dataCompany) {
 
     const HeaderTableAgency = [
         "Nombre empresa",

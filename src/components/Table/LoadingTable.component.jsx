@@ -1,8 +1,8 @@
 import React from 'react'
 import './Loading.css'
-import loadImage from '../asset/load.webp'
+import loadImage from '../../components/asset/load.webp'
 
-function LoadingComponent() {
+function LoadingTableComponent() {
     return (
         <div className='loadingContainer'>
             <img src={loadImage} loading='lazy' />
@@ -10,4 +10,4 @@ function LoadingComponent() {
     )
 }
 
-export default LoadingComponent
+export default LoadingTableComponent

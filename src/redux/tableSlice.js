@@ -1,8 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { sortArrDataString, sortArrDataNumber } from "../logic/filters.logic";
 
 const initialState = {
-    nameTable: "",
-    table: {
+    tableName: "",
+    tableDefault: {
+        header: [],
+        data: [],
+        propiertiesToShow: []
+    },
+    tableClient: {
+        header: [],
+        data: [],
+        propiertiesToShow: []
+    },
+    tableAgency: {
         header: [],
         data: [],
         propiertiesToShow: []
@@ -13,11 +24,24 @@ export const tableSlice = createSlice({
     name: "table",
     initialState,
     reducers: {
-        addTableData: (state, action) => {
+        addTableAgency: (state, action) => {
+            //guarda los datos de tableAgency en el estado global
             const data = action.payload;
-            state.table = data
+            state.tableAgency = data
+
+            //guarda el estado por default
+            state.tableDefault = data
+        },
+        addTableClient: (state, action) => {
+            //guarda los datos de tableAgency en el estado global
+            const data = action.payload;
+            state.tableClient = data
+
+            //guarda el estado por default
+            state.tableDefault = data
         },
         addNameTable: (state, action) => {
+            //guarda el nombre de la tabla actual
             const data = action.payload;
             state.nameTable = data
         },
@@ -25,43 +49,50 @@ export const tableSlice = createSlice({
             const valueToSortBy = action.payload;
             switch (valueToSortBy) {
                 case "Alfabetico":
-                    const isAgency = state.table.data[0].hasOwnProperty("nameAgency")
+                    if (state.tableAgency.data.length != 0) {
 
-                    if (isAgency) {
-                        state.table.data = state.table.data.sort((a, b) => {
-                            if (a.nameAgency < b.nameAgency) {
-                                return -1
-                            } else if (a.nameAgency > b.nameAgency) {
-                                return 1
-                            } else {
-                                return 0
-                            }
-                        })
-                    } else {
-                        state.table.data = state.table.data.sort((a, b) => {
-                            if (a.name < b.name) {
-                                return -1
-                            } else if (a.name > b.name) {
-                                return 1
-                            } else {
-                                return 0
-                            }
-                        })
+                        //ordena por nameAency y lo asigna al estado de tableAgency
+                        const DataToSort = 'nameAgency'
+                        state.tableAgency.data = sortArrDataString(state.tableAgency.data, DataToSort)
+
+
+                    } else if (state.tableClient.data.length != 0) {
+
+                        //ordena por name y lo asigna al estado de tableClient
+                        const DataToSort = 'name'
+                        state.tableClient.data = sortArrDataString(state.tableClient.data, DataToSort)
                     }
-
                     break
 
                 case "Ventas":
+                    if (state.tableAgency.data.length != 0) {
 
+                        const DataToSort = 'sumPrice'
+                        state.tableAgency.data = sortArrDataNumber(state.tableAgency.data, DataToSort)
+                    } else if (state.tableClient.data.length != 0) {
+                        const DataToSort = 'finalPrice'
+                        state.tableClient.data = sortArrDataNumber(state.tableClient.data, DataToSort)
+                    }
                     break;
 
                 default:
+                    if (state.tableAgency.data.length != 0) {
+
+                        state.tableAgency = state.tableDefault
+
+                    } else if (state.tableClient.data.length != 0) {
+
+                        state.tableClient = state.tableDefault
+
+                    }
                     break;
+
             }
 
         },
     }
 })
 
-export const { addTableData, addNameTable, addSortBy } = tableSlice.actions;
+export const { addTableAgency, addTableClient, addNameTable, addSortBy } = tableSlice.actions;
 export default tableSlice.reducer;
+
