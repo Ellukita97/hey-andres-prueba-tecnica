@@ -1,3 +1,4 @@
+import { sortNumberLargeToSmall } from './filters.logic.js'
 
 
 export function TableClientLogic(nameAgency, dataCompany) {
@@ -61,26 +62,55 @@ export function TableAgencyLogic(dataCompany) {
         "detalle",
     ]
 
+    const maxSalesAgency = () => {
+
+        const ventasPorMes = {};
+
+        function obtenerMes(fecha) {
+            return fecha.split('-')[1];
+        }
+
+        dataCompany.forEach(venta => {
+            const mes = obtenerMes(venta.day);
+            if (!ventasPorMes[mes]) {
+                ventasPorMes[mes] = 0;
+            }
+            ventasPorMes[mes] += venta.finalPrice;
+        });
+
+        let mesConMasVentas = '';
+        let ventasMaximas = 0;
+
+        for (const mes in ventasPorMes) {
+            if (ventasPorMes[mes] > ventasMaximas) {
+                ventasMaximas = ventasPorMes[mes];
+                mesConMasVentas = mes;
+            }
+        }
+
+        return mesConMasVentas
+
+
+    }
+
+    const sumPrice = (name) => {
+        let totalPrice = 0
+        dataCompany.map(d => {
+            if (d.nameAgency == name) {
+                totalPrice += d.finalPrice
+
+            }
+        })
+        return totalPrice
+    }
+
     const DataAgencyToArray = (data) => {
 
         const arr = []
 
-        const sumPrice = (name) => {
-            let totalPrice = 0
-            data.map(d => {
-                if (d.nameAgency == name) {
-                    totalPrice += d.finalPrice
-
-                }
-            })
-            return totalPrice
-        }
-
         const commissionPrice = (averagePrice) => {
             return averagePrice * 0.025
         }
-
-
 
         data?.map(d => {
             if (!arr.find(ad => ad.nameAgency == d.nameAgency)) {
@@ -96,10 +126,15 @@ export function TableAgencyLogic(dataCompany) {
         return arr
     }
 
+    const data = DataAgencyToArray(dataCompany)
+    const monthMoreSales = sortNumberLargeToSmall(data, 'sumPrice')[0].sumPrice
+
     return {
         header: HeaderTableAgency,
-        data: DataAgencyToArray(dataCompany),
-        propiertiesToShow: propiertiesToShow
+        data: data,
+        propiertiesToShow: propiertiesToShow,
+        monthMoreSales: monthMoreSales,
+        maxSalesAgency: maxSalesAgency()
     }
 
 }

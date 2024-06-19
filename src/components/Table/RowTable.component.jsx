@@ -14,7 +14,7 @@ function RowComponent({ dataTable, propsToShow }) {
                                         {
                                             prop == "detalle"
                                                 ? (
-                                                    <a href={`/empresas/${value.nameAgency}`}>Detalle</a>
+                                                    <a href={`/${value.nameAgency}`}>Detalle</a>
                                                 )
                                                 : value[prop]
                                         }

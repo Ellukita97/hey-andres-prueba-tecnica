@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { sortArrDataString, sortArrDataNumber } from "../logic/filters.logic";
+import { sortArrDataString, sortNumberSmallToLarge,getMonthNamesForNumber } from "../logic/filters.logic.js";
 
 const initialState = {
     tableName: "",
+    bestMonth: 0,
+    agencyMostSales: "",
     tableDefault: {
         header: [],
         data: [],
@@ -45,6 +47,16 @@ export const tableSlice = createSlice({
             const data = action.payload;
             state.nameTable = data
         },
+        addBestMonth: (state, action) => {
+            //guarda el nombre de la tabla actual
+            const data = action.payload;
+            state.bestMonth = data
+        },
+        addAgencyMostSales: (state, action) => {
+            //guarda nombre del mes con mas ventas
+            const data = action.payload;
+            state.agencyMostSales = getMonthNamesForNumber(data)
+        },
         addSortBy: (state, action) => {
             const valueToSortBy = action.payload;
             switch (valueToSortBy) {
@@ -66,24 +78,19 @@ export const tableSlice = createSlice({
 
                 case "Ventas":
                     if (state.tableAgency.data.length != 0) {
-
                         const DataToSort = 'sumPrice'
-                        state.tableAgency.data = sortArrDataNumber(state.tableAgency.data, DataToSort)
+                        state.tableAgency.data = sortNumberSmallToLarge(state.tableAgency.data, DataToSort)
                     } else if (state.tableClient.data.length != 0) {
                         const DataToSort = 'finalPrice'
-                        state.tableClient.data = sortArrDataNumber(state.tableClient.data, DataToSort)
+                        state.tableClient.data = sortNumberSmallToLarge(state.tableClient.data, DataToSort)
                     }
                     break;
 
                 default:
                     if (state.tableAgency.data.length != 0) {
-
                         state.tableAgency = state.tableDefault
-
                     } else if (state.tableClient.data.length != 0) {
-
                         state.tableClient = state.tableDefault
-
                     }
                     break;
 
@@ -93,6 +100,13 @@ export const tableSlice = createSlice({
     }
 })
 
-export const { addTableAgency, addTableClient, addNameTable, addSortBy } = tableSlice.actions;
+export const {
+    addTableAgency,
+    addTableClient,
+    addNameTable,
+    addBestMonth,
+    addAgencyMostSales,
+    addSortBy
+} = tableSlice.actions;
 export default tableSlice.reducer;
 

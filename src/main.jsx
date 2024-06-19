@@ -12,11 +12,11 @@ import ClientsPage from './components/pages/Clients.page.jsx';
 
 const router = createBrowserRouter([
   {
-    path: "/empresas",
+    path: "/",
     element: <AgencyPage />,
   },
   {
-    path: "/empresas/:nameAgencyParams",
+    path: "/:nameAgencyParams",
     element: <ClientsPage />,
   },
 ]);

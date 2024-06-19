@@ -1,0 +1,31 @@
+.headerPageContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.titleContainer_headerPage {
+    min-height: 111px;
+}
+
+.squereContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.select_headerPage {
+    padding:  10px 20px;
+    font-size: 18px;
+    border-color: #eeeef0;
+}
+.select_headerPage option{
+    text-align: center;
+}
+
+
+@media (width <=815px) {
+    .headerPageContainer {
+        justify-content: center;
+    }
+}

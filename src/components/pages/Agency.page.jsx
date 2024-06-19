@@ -3,7 +3,7 @@ import TableComponent from '../Table/Table.component'
 import HeaderComponent from './components/Header.component'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addTableAgency } from '../../redux/tableSlice.js'
+import { addTableAgency, addBestMonth, addAgencyMostSales } from '../../redux/tableSlice.js'
 import { loadDataTableFirebase } from '../../services/FireBase.service'
 import { TableAgencyLogic } from '../../logic/Tables.logic.js'
 
@@ -22,9 +22,12 @@ function AgencyPage() {
   useEffect(() => {
     let add = true;
     const fetchData = async () => {
-      const dataResult = await getTableData()
+      const { header, data, propiertiesToShow, monthMoreSales, maxSalesAgency } = await getTableData()
+      const dataToSend = { header, data, propiertiesToShow }
       if (add) {
-        dispatch(addTableAgency(dataResult))
+        dispatch(addTableAgency(dataToSend))
+        dispatch(addBestMonth(monthMoreSales))
+        dispatch(addAgencyMostSales(maxSalesAgency))
       }
     }
     fetchData()
