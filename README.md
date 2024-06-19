@@ -30,5 +30,6 @@ npm run dev
 ## INTEGRACION CON WORDPRESS
 
 La aplicación fue integrada por wordpress mediante el uso de shortcodes. Dejo un video como demostración del código y la funcionalidad de la integración.
+Realize clik en la imagen o en el siguiente link: https://www.youtube.com/watch?v=XMgWx5jyEKw
 
-
+[![Watch the video](https://images.drivereasy.com/wp-content/uploads/2017/07/img_596dda8d77553.png)](https://www.youtube.com/watch?v=XMgWx5jyEKw)
